@@ -55,6 +55,9 @@ export class AuthService {
         this.localStorageService.setStorage('accessToken', user.accessToken);
         this.localStorageService.setStorage('role', user.role);
         this.localStorageService.setStorage('idUser', user.id);
+        sessionStorage.setItem('accessToken', user.accessToken);
+        sessionStorage.setItem('role', user.role);
+        sessionStorage.setItem('idUser', user.id);
       }
     });
   }
@@ -92,11 +95,11 @@ export class AuthService {
   }
 
   isLoggedIn(){
-    return sessionStorage.getItem('username')!= null;
+    return sessionStorage.getItem('idUser')!= null;
   }
 
   getUserRole(){
-    return sessionStorage.getItem('userrole')!= null ? sessionStorage.getItem('userrole')?.toString() : '';
+    return sessionStorage.getItem('role')!= null ? sessionStorage.getItem('role')?.toString() : '';
   }
 
 }
