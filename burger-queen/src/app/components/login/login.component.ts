@@ -12,6 +12,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 export class LoginComponent implements OnInit {
   constructor(private builder:FormBuilder, private toastr: ToastrService, 
     private auth: AuthService, private router: Router) {
+      sessionStorage.clear();
   }
 
   hide = true;
@@ -36,7 +37,7 @@ export class LoginComponent implements OnInit {
       this.auth.loginResponse$.subscribe(res => {
         if (res.error !== null) this.toastr.warning(res.error?.message);
         if (res.data !== null) {
-          this.toastr.success('Welcome to Burger Queen', 'Logged Succesfully');
+          this.toastr.success(`Welcome ${res.data.user.name} to Burger Queen`, 'Logged Succesfully');
           this.router.navigate(['']);
         }
       });

@@ -66,24 +66,37 @@ export class AuthService {
     this.registerResponse$ = this.registerHandler.response$;
   }
   
-    // Users
-    proceedLoginUser(credentials: CredentialLogin): void{
-      this.isLoading = true;
-      const url = `${this.apiUrl}/login`;
-      this.loginHandler.makeCall('POST', url, credentials);
-      this.loginHandler.response$.subscribe((res) => {
-        this.isLoading = res.isLoading;
-        this.response = res;
-      });
-    }
+  // Users
+  proceedLoginUser(credentials: CredentialLogin): void{
+    this.isLoading = true;
+    const url = `${this.apiUrl}/login`;
+    this.loginHandler.makeCall('POST', url, credentials);
+    this.loginHandler.response$.subscribe((res) => {
+      this.isLoading = res.isLoading;
+      this.response = res;
+    });
+  }
 
-    proceedRegisterUser(credentials: CredentialRegister): void{
-      this.isLoading = true;
-      const url = `${this.apiUrl}/users`;
-      this.registerHandler.makeCall('POST', url, credentials);
-      this.registerHandler.response$.subscribe((res) => {
-        this.isLoading = res.isLoading;
-        this.response = res;
-      });
-    }
+  proceedRegisterUser(credentials: CredentialRegister): void{
+    this.isLoading = true;
+    const url = `${this.apiUrl}/users`;
+    this.registerHandler.makeCall('POST', url, credentials);
+    this.registerHandler.response$.subscribe((res) => {
+      this.isLoading = res.isLoading;
+      this.response = res;
+    });
+  }
+
+  getAllUsers(){
+    console.log('Get All Users');
+  }
+
+  isLoggedIn(){
+    return sessionStorage.getItem('username')!= null;
+  }
+
+  getUserRole(){
+    return sessionStorage.getItem('userrole')!= null ? sessionStorage.getItem('userrole')?.toString() : '';
+  }
+
 }
