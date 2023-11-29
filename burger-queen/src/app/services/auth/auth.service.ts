@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { requestHandler } from '../../utils/requestHandler';
-import { Credentials, LoginResponse, requestResponse, systemUser } from 'src/app/interfaces';
+import { CredentialLogin, LoginResponse, requestResponse, systemUser } from 'src/app/interfaces';
 import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from '../../services/localStorage/local-storage.service';
 
@@ -11,7 +11,7 @@ import { LocalStorageService } from '../../services/localStorage/local-storage.s
 })
 export class AuthService {
   private apiUrl = environment._API_URL;
-  private loginHandler!: requestHandler<LoginResponse, Credentials>;
+  private loginHandler!: requestHandler<LoginResponse, CredentialLogin>;
   public loginResponse$!: Subject<requestResponse<LoginResponse>>;
   public systemUser$ = new BehaviorSubject<systemUser>({
     id: '',
@@ -24,8 +24,8 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private localStorageService: LocalStorageService
-  ) { 
-    this.loginHandler = new requestHandler<LoginResponse, Credentials>(
+  ) {
+    this.loginHandler = new requestHandler<LoginResponse, CredentialLogin>(
       this.http
     );
     this.loginResponse$ = this.loginHandler.response$;
@@ -49,4 +49,28 @@ export class AuthService {
       if(user.accessToken !== '') alert('User logged');
     });
   }
+
+    // Users
+    proceedLoginUser(credentials: CredentialLogin){
+      console.log(credentials);
+      this.isLoading = true;
+      // const url = `${this.apiurl}/users`;
+      const url = `${this.apiUrl}/login`;
+      console.log(url);
+      // let body = credentials;
+      //   const body = { 
+      //     "name": "", 
+      //     "password": "123456", 
+      //     "email": "caropugo@gmail", 
+      //     "role": "", 
+      //     "isactive": false 
+      // };
+      this.loginHandler.makeCall('POST', url, credentials);
+      this.loginHandler.response$.subscribe(() => {
+        console.log(this.loginHandler.response$);
+        this.isLoading = false;
+        // alert('User logged');
+      });
+    }
+  
 }

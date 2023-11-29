@@ -14,13 +14,21 @@ export class requestHandler <ResultType,BodyType> {
  response$ = new Subject<requestResponse<ResultType>>()
 
  makeCall(method: HttpMethods, url:string, body:BodyType | null = null, requestOptions: HttpRequestOptions | null = null ): void {
-   this.response$.next({ isLoading: true, error: null, data: null });
-
-   this.httpClient.request(method, url, {...requestOptions, body}).subscribe(
-    (data)=> {
-      this.response$.next({  isLoading: false, error: null, data: data as ResultType})
-    },
-    (error) => this.response$.next({ isLoading: false, error: error, data: null})
-    )
+    console.log(method);
+    console.log(url);
+    console.log(body);
+    console.log(requestOptions);
+    this.response$.next({ isLoading: true, error: null, data: null });
+    this.httpClient.request(method, url, {...requestOptions, body}).subscribe({
+        next: (v) => {
+            console.log(v);
+            return this.response$.next({  isLoading: false, error: null, data: v as ResultType})
+        },
+        error: (e) => {
+            console.log(e);
+            return this.response$.next({ isLoading: false, error: e, data: null })
+        },
+        // complete: () => console.info('complete') 
+    })
   }
 }

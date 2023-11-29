@@ -27,14 +27,20 @@ export interface UserInformation {
     email: string;
     role: string;
     id: number;
+    isactive: boolean;
 }
     
-export interface Credentials {
+export interface CredentialRegister {
     email: string;
     password: string;
     name: string, 
     role: string, 
-    isactive: boolean 
+    isactive: boolean
+}
+
+export interface CredentialLogin {
+    email: string;
+    password: string;
 }
 
 export interface LoginResponse {
