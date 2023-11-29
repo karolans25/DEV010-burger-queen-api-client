@@ -32,15 +32,25 @@ export class LoginComponent implements OnInit {
 
   proceedLogin(){
     if(this.loginForm.valid){
-      console.log(this.loginForm.value);
-      const res = this.auth.proceedLoginUser(this.loginForm.value);
-      console.log(res);
+      // console.log(this.loginForm.value);
+      // this.auth.proceedLoginUser(this.loginForm.value).subscribe(res => {
+      //   console.log(res);
+      // });
+      this.auth.proceedLoginUser(this.loginForm.value);
+      this.auth.loginResponse$.subscribe(res => {
+        if (res.error !== null) this.toastr.warning(res.error?.message);
+        if (res.data !== null) {
+          this.toastr.success('Welcome to Burger Queen', 'Logged Succesfully');
+          this.router.navigate(['']);
+        }
+      });
+      // console.log(this.auth.loginResponse$);
+      // console.log(res);
       // this.auth.proceedLoginUser(this.loginForm.value).subscribe(res => {
       //   console.log(res);
       //   this.toastr.success('Please contact admin for enable access', 'Registered Succesfully');
       //   this.router.navigate(['']);
       // });
-
     } else {
       this.toastr.warning('Please enter valid data');
     }

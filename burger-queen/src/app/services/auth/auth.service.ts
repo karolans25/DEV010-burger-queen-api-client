@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { requestHandler } from '../../utils/requestHandler';
 import { CredentialLogin, LoginResponse, requestResponse, systemUser } from 'src/app/interfaces';
@@ -20,6 +20,7 @@ export class AuthService {
     email: '',
   });
   public isLoading = false;
+  public response!: requestResponse<LoginResponse>;
 
   constructor(
     private http: HttpClient,
@@ -40,23 +41,26 @@ export class AuthService {
         };
         this.systemUser$.next(newUser);
       }
-      if(state.error !== null) alert('User not found');
+      // if(state.error !== null) alert(state.error.message);
     });
     this.systemUser$.subscribe((user) => {
-      this.localStorageService.setStorage('accessToken', user.accessToken);
-      this.localStorageService.setStorage('role', user.role);
-      this.localStorageService.setStorage('idUser', user.id);
-      if(user.accessToken !== '') alert('User logged');
+      this.localStorageService.clearStorage();
+      if(user.accessToken !== '') {
+        this.localStorageService.setStorage('accessToken', user.accessToken);
+        this.localStorageService.setStorage('role', user.role);
+        this.localStorageService.setStorage('idUser', user.id);
+      }
     });
   }
 
     // Users
-    proceedLoginUser(credentials: CredentialLogin){
-      console.log(credentials);
+    proceedLoginUser(credentials: CredentialLogin): void{
+    // proceedLoginUser(credentials: CredentialLogin) {
+      // console.log(credentials);
       this.isLoading = true;
       // const url = `${this.apiurl}/users`;
       const url = `${this.apiUrl}/login`;
-      console.log(url);
+      // console.log(url);
       // let body = credentials;
       //   const body = { 
       //     "name": "", 
@@ -66,11 +70,21 @@ export class AuthService {
       //     "isactive": false 
       // };
       this.loginHandler.makeCall('POST', url, credentials);
-      this.loginHandler.response$.subscribe(() => {
-        console.log(this.loginHandler.response$);
-        this.isLoading = false;
+      this.loginHandler.response$.subscribe((res) => {
+        // console.log(res);
+        // console.log(res.error?.message);
+        this.isLoading = res.isLoading;
+        // console.log(res.error?.message);
         // alert('User logged');
+        this.response = res;
       });
-    }
+      // return this.loginResponse$;
+      // return new Observable(observer => {
+      //   alert('Started Observable');
+      //   observer.next(this.response);
+      //   observer.complete();
+      //   alert('Compeleted Observable');
+      // });  
+  }
   
 }
