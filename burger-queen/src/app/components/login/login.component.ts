@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
   constructor(private builder:FormBuilder, private toastr: ToastrService, 
     private auth: AuthService, private router: Router) {
       sessionStorage.clear();
+      localStorage.clear();
   }
 
   hide = true;
