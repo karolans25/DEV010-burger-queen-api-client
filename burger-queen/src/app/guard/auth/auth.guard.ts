@@ -4,7 +4,6 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   const router = new Router();
   const role = localStorage.getItem('role');
-  console.log(state.url);
   if(route.url.toString() === '' && (role !== null && role !== '')){
     return true;
   }

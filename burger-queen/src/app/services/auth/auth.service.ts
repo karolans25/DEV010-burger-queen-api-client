@@ -3,7 +3,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { requestHandler } from '../../utils/requestHandler';
 import { CredentialLogin, CredentialRegister, AuthResponse, requestResponse, systemUser } from 'src/app/interfaces';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LocalStorageService } from '../../services/localStorage/local-storage.service';
 
 @Injectable({
@@ -92,6 +92,18 @@ export class AuthService {
 
   getAllUsers(){
     console.log('Get All Users');
+    const url = `${this.apiUrl}/users`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+    });
+    console.log(headers);
+    // Configuración de parámetros de consulta
+    // const params = new HttpParams()
+    //   .set('parametro1', 'valor1')
+    //   .set('parametro2', 'valor2');
+
+    return this.http.get(url, {headers: headers});
   }
 
   isLoggedIn(){
