@@ -10,6 +10,10 @@ import { MatSortModule } from "@angular/material/sort";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatButtonModule } from "@angular/material/button";
 import {MatIconModule} from '@angular/material/icon';
+// import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatStepperModule} from '@angular/material/stepper';
+// import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
     exports: [
@@ -23,7 +27,9 @@ import {MatIconModule} from '@angular/material/icon';
         MatSortModule,
         MatDialogModule,
         MatButtonModule,
-        MatIconModule
+        MatIconModule,
+        MatFormFieldModule,
+        MatStepperModule
     ]
 })
 export class MaterialModule { }
