@@ -302,7 +302,7 @@
   />
   <span>Welcome</span>
   <a aria-label="Home of Burger Queen" routerLink="">Home</a>
-  <a aria-label="List the users (only for admin)" routerLink="/user">User</a>
+  <a *ngIf="isAdminUser" aria-label="List the users (only for admin)" routerLink="/user">User</a>
   <div class="spacer"></div>
   <a aria-label="Log out of Burger Queen" routerLink="/login">Logout</a>
 </div>

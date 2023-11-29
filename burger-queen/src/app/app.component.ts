@@ -1,5 +1,6 @@
 import { Component, DoCheck } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from './services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -9,8 +10,9 @@ import { Router } from '@angular/router';
 export class AppComponent implements DoCheck{
   title = 'burger-queen';
   isMenuRequired = false;
+  isAdminUser = false;
 
-  constructor(private router: Router){
+  constructor(private router: Router, private auth: AuthService){
     
   }
 
@@ -20,6 +22,11 @@ export class AppComponent implements DoCheck{
       this.isMenuRequired = false;
     } else {
       this.isMenuRequired = true;
+    }
+    if(this.auth.getUserRole()==='admin') {
+      this.isAdminUser = true;
+    } else {
+      this.isAdminUser = false;
     }
     // throw new Error('Method not implemented');
   }
