@@ -3,8 +3,13 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { requestHandler } from '../../utils/requestHandler';
 import { CredentialLogin, CredentialRegister, AuthResponse, requestResponse, systemUser } from 'src/app/interfaces';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { LocalStorageService } from '../../services/localStorage/local-storage.service';
+
+interface updateUserRole {
+  role: string,
+  isactive: boolean
+}
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +60,9 @@ export class AuthService {
         this.localStorageService.setStorage('accessToken', user.accessToken);
         this.localStorageService.setStorage('role', user.role);
         this.localStorageService.setStorage('idUser', user.id);
+        sessionStorage.setItem('accessToken', user.accessToken);
+        sessionStorage.setItem('role', user.role);
+        sessionStorage.setItem('idUser', user.id);
       }
     });
   }
@@ -88,15 +96,59 @@ export class AuthService {
   }
 
   getAllUsers(){
-    console.log('Get All Users');
+    const url = `${this.apiUrl}/users`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+    });
+    // Configuración de parámetros de consulta
+    // const params = new HttpParams()
+    //   .set('parametro1', 'valor1')
+    //   .set('parametro2', 'valor2');
+    return this.http.get(url, {headers: headers});
+  }
+
+  getAllUserRoles(){
+    const url = `${this.apiUrl}/roles`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('accessToken'),
+      // 'Access-Control-Allow-Origin': this.apiUrl
+    });
+    return this.http.get(url, {headers: headers});
+  }
+
+  getUserById(code: number) {
+    const url = `${this.apiUrl}/users/${code}`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('accessToken'),
+      // 'Access-Control-Allow-Origin': this.apiUrl
+    });
+    return this.http.get(url, {headers: headers});
+  }
+
+  updateUser(code: number, inputdata: updateUserRole) {
+    const url = `${this.apiUrl}/users/${code}`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('accessToken'),
+      // 'Access-Control-Allow-Origin': this.apiUrl
+    });
+    // // Configuración de parámetros de consulta
+    // const params = new HttpParams()
+    //   .set('role', inputdata.role)
+    //   .set('isactive', inputdata.isactive);
+    // const options =  { headers: headers, params: params };
+    return this.http.patch(url, inputdata, { headers: headers});
   }
 
   isLoggedIn(){
-    return sessionStorage.getItem('username')!= null;
+    return sessionStorage.getItem('idUser')!= null;
   }
 
   getUserRole(){
-    return sessionStorage.getItem('userrole')!= null ? sessionStorage.getItem('userrole')?.toString() : '';
+    return sessionStorage.getItem('role')!= null ? sessionStorage.getItem('role')?.toString() : '';
   }
 
 }

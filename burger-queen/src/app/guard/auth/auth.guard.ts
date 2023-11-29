@@ -1,20 +1,30 @@
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { ToastrService} from 'ngx-toastr';
 
 export const authGuard: CanActivateFn = (route, state) => {
-  // let service!: AuthService;
-  // let router!: Router;
-  // let toastr!: ToastrService;
 
-  console.log(route);
-  console.log(state);
+  const router = new Router();
+  const role = localStorage.getItem('role');
 
-  return true;
-  // if(service.isLoggedIn()){
-    // return true;
-  // } else {
-    // router.navigate(['login']);
-    // return false;
-  // }
+  if(sessionStorage.getItem('idUser') !== null && sessionStorage.getItem('idUser') !== '' ) {
+    if(route.url.length > 0) {
+      const menu = route.url[0].path;
+      if(menu === 'user'){
+        if(role){
+          return true;
+        } else {
+          // toastr.warning('You don\'t have access');
+          alert('You don\'t have access');
+          router.navigate(['']);
+          return false;
+        }
+      } else {
+        return true;
+      }
+      return true;
+    } else {
+      return true;
+    }
+  }
+  router.navigate(['login']);
+  return false;
 };

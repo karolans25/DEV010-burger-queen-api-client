@@ -12,6 +12,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { LoginComponent } from './components/login/login.component';
+import { UserListingComponent } from './components/admin/user-listing/user-listing.component';
+import { UpdatePopupComponent } from './components/admin/update-popup/update-popup.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { LoginComponent } from './components/login/login.component';
     HomeComponent,
     ErrorComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    UserListingComponent,
+    UpdatePopupComponent
   ],
   imports: [
     BrowserModule,
