@@ -91,18 +91,25 @@ export class AuthService {
   }
 
   getAllUsers(){
-    console.log('Get All Users');
     const url = `${this.apiUrl}/users`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
     });
-    console.log(headers);
     // Configuración de parámetros de consulta
     // const params = new HttpParams()
     //   .set('parametro1', 'valor1')
     //   .set('parametro2', 'valor2');
+    return this.http.get(url, {headers: headers});
+  }
 
+  getAllUserRoles(){
+    const url = `${this.apiUrl}/roles`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('accessToken'),
+      // 'Access-Control-Allow-Origin': this.apiUrl
+    });
     return this.http.get(url, {headers: headers});
   }
 
