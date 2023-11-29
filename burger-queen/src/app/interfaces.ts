@@ -28,6 +28,7 @@ export interface UserInformation {
     role: string;
     id: number;
     isactive: boolean;
+    name: string;
 }
     
 export interface CredentialRegister {
@@ -43,7 +44,7 @@ export interface CredentialLogin {
     password: string;
 }
 
-export interface LoginResponse {
+export interface AuthResponse {
     accessToken: string;
     user: UserInformation;
 }

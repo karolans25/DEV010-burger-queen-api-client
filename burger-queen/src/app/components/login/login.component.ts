@@ -31,11 +31,7 @@ export class LoginComponent implements OnInit {
   }
 
   proceedLogin(){
-    if(this.loginForm.valid){
-      // console.log(this.loginForm.value);
-      // this.auth.proceedLoginUser(this.loginForm.value).subscribe(res => {
-      //   console.log(res);
-      // });
+    if(this.loginForm.valid) {
       this.auth.proceedLoginUser(this.loginForm.value);
       this.auth.loginResponse$.subscribe(res => {
         if (res.error !== null) this.toastr.warning(res.error?.message);
@@ -44,13 +40,6 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['']);
         }
       });
-      // console.log(this.auth.loginResponse$);
-      // console.log(res);
-      // this.auth.proceedLoginUser(this.loginForm.value).subscribe(res => {
-      //   console.log(res);
-      //   this.toastr.success('Please contact admin for enable access', 'Registered Succesfully');
-      //   this.router.navigate(['']);
-      // });
     } else {
       this.toastr.warning('Please enter valid data');
     }

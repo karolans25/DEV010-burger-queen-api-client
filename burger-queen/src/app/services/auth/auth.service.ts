@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { requestHandler } from '../../utils/requestHandler';
-import { CredentialLogin, LoginResponse, requestResponse, systemUser } from 'src/app/interfaces';
+import { CredentialLogin, CredentialRegister, AuthResponse, requestResponse, systemUser } from 'src/app/interfaces';
 import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from '../../services/localStorage/local-storage.service';
 
@@ -11,8 +11,10 @@ import { LocalStorageService } from '../../services/localStorage/local-storage.s
 })
 export class AuthService {
   private apiUrl = environment._API_URL;
-  private loginHandler!: requestHandler<LoginResponse, CredentialLogin>;
-  public loginResponse$!: Subject<requestResponse<LoginResponse>>;
+  private registerHandler!: requestHandler<AuthResponse, CredentialRegister>;
+  public registerResponse$!: Subject<requestResponse<AuthResponse>>;
+  private loginHandler!: requestHandler<AuthResponse, CredentialLogin>;
+  public loginResponse$!: Subject<requestResponse<AuthResponse>>;
   public systemUser$ = new BehaviorSubject<systemUser>({
     id: '',
     accessToken: '',
@@ -20,13 +22,18 @@ export class AuthService {
     email: '',
   });
   public isLoading = false;
-  public response!: requestResponse<LoginResponse>;
+  public response!: requestResponse<AuthResponse>;
 
   constructor(
     private http: HttpClient,
     private localStorageService: LocalStorageService
   ) {
-    this.loginHandler = new requestHandler<LoginResponse, CredentialLogin>(
+    this.initLogin();
+    this.initRegister();
+  }
+
+  initLogin() {
+    this.loginHandler = new requestHandler<AuthResponse, CredentialLogin>(
       this.http
     );
     this.loginResponse$ = this.loginHandler.response$;
@@ -41,7 +48,6 @@ export class AuthService {
         };
         this.systemUser$.next(newUser);
       }
-      // if(state.error !== null) alert(state.error.message);
     });
     this.systemUser$.subscribe((user) => {
       this.localStorageService.clearStorage();
@@ -53,38 +59,31 @@ export class AuthService {
     });
   }
 
-    // Users
-    proceedLoginUser(credentials: CredentialLogin): void{
-    // proceedLoginUser(credentials: CredentialLogin) {
-      // console.log(credentials);
-      this.isLoading = true;
-      // const url = `${this.apiurl}/users`;
-      const url = `${this.apiUrl}/login`;
-      // console.log(url);
-      // let body = credentials;
-      //   const body = { 
-      //     "name": "", 
-      //     "password": "123456", 
-      //     "email": "caropugo@gmail", 
-      //     "role": "", 
-      //     "isactive": false 
-      // };
-      this.loginHandler.makeCall('POST', url, credentials);
-      this.loginHandler.response$.subscribe((res) => {
-        // console.log(res);
-        // console.log(res.error?.message);
-        this.isLoading = res.isLoading;
-        // console.log(res.error?.message);
-        // alert('User logged');
-        this.response = res;
-      });
-      // return this.loginResponse$;
-      // return new Observable(observer => {
-      //   alert('Started Observable');
-      //   observer.next(this.response);
-      //   observer.complete();
-      //   alert('Compeleted Observable');
-      // });  
+  initRegister(){
+    this.registerHandler = new requestHandler<AuthResponse, CredentialRegister>(
+      this.http
+    );
+    this.registerResponse$ = this.registerHandler.response$;
   }
   
+    // Users
+    proceedLoginUser(credentials: CredentialLogin): void{
+      this.isLoading = true;
+      const url = `${this.apiUrl}/login`;
+      this.loginHandler.makeCall('POST', url, credentials);
+      this.loginHandler.response$.subscribe((res) => {
+        this.isLoading = res.isLoading;
+        this.response = res;
+      });
+    }
+
+    proceedRegisterUser(credentials: CredentialRegister): void{
+      this.isLoading = true;
+      const url = `${this.apiUrl}/users`;
+      this.registerHandler.makeCall('POST', url, credentials);
+      this.registerHandler.response$.subscribe((res) => {
+        this.isLoading = res.isLoading;
+        this.response = res;
+      });
+    }
 }
