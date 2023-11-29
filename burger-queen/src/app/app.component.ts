@@ -18,16 +18,17 @@ export class AppComponent implements DoCheck{
 
   ngDoCheck(): void {
     const currentUrl = this.router.url;
+
     if(currentUrl === '/login' || currentUrl === '/register'){
       this.isMenuRequired = false;
     } else {
       this.isMenuRequired = true;
     }
+
     if(this.auth.getUserRole()==='admin') {
       this.isAdminUser = true;
     } else {
       this.isAdminUser = false;
     }
-    // throw new Error('Method not implemented');
   }
 }

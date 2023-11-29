@@ -14,6 +14,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { LoginComponent } from './components/login/login.component';
 import { UserListingComponent } from './components/admin/user-listing/user-listing.component';
 import { UpdatePopupComponent } from './components/admin/update-popup/update-popup.component';
+import { OrderListingComponent } from './components/home/order-listing/order-listing.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { UpdatePopupComponent } from './components/admin/update-popup/update-pop
     RegisterComponent,
     LoginComponent,
     UserListingComponent,
-    UpdatePopupComponent
+    UpdatePopupComponent,
+    OrderListingComponent
   ],
   imports: [
     BrowserModule,

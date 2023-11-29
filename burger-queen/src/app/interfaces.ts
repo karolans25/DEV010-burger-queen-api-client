@@ -30,7 +30,30 @@ export interface UserInformation {
     isactive: boolean;
     name: string;
 }
-    
+
+export interface ProductInformation {
+    id: number,
+    name: string,
+    price: number,
+    image: string,
+    type: string,
+    dateEntry: string
+}
+
+export interface TakeProduct {
+    qty: number,
+    product: ProductInformation
+}
+
+export interface OrderInformation {
+    id: number,
+    userId: number,
+    client: string,
+    products: TakeProduct[],
+    status: string,
+    dataEntry: string
+}
+
 export interface CredentialRegister {
     email: string;
     password: string;
