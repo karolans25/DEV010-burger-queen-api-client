@@ -4,9 +4,10 @@ import { HomeComponent } from './components/home/home.component';
 import { ErrorComponent } from './components/error/error.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
+import { authGuard } from './guard/auth/auth.guard';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent},
+  { path: '', component: HomeComponent, canActivate: [authGuard]},
   { path: 'register', component: RegisterComponent},
   { path: 'login', component: LoginComponent},
   { path: '**', component: ErrorComponent}
