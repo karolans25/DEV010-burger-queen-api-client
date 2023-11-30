@@ -9,11 +9,11 @@ import { UserListingComponent } from './components/admin/user-listing/user-listi
 import { OrderListingComponent } from './components/home/order-listing/order-listing.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, canActivate: [authGuard]},
+  { path: '', component: OrderListingComponent, canActivate: [authGuard]},
+  { path: 'order', component: HomeComponent},
   { path: 'register', component: RegisterComponent},
   { path: 'login', component: LoginComponent},
   { path: 'user', component: UserListingComponent},
-  { path: 'order', component: OrderListingComponent},
   { path: '**', component: ErrorComponent}
 ];
 

@@ -17,6 +17,7 @@ import { UpdatePopupComponent } from './components/admin/update-popup/update-pop
 import { OrderListingComponent } from './components/home/order-listing/order-listing.component';
 import { ProductCardComponent } from './components/home/product-card/product-card.component';
 import { OrderTicketComponent } from './components/home/order-ticket/order-ticket.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { OrderTicketComponent } from './components/home/order-ticket/order-ticke
     ReactiveFormsModule,
     HttpClientModule,
     ToastrModule.forRoot(),
+    DragDropModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
