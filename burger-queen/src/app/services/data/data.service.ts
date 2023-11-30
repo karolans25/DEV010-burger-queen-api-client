@@ -100,6 +100,19 @@ export class DataService {
     return this.http.get(url, {headers: headers});
   }
 
+  getAllProducts() {
+    const url = `${this.apiUrl}/products`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+    });
+    // Configuración de parámetros de consulta
+    // const params = new HttpParams()
+    //   .set('parametro1', 'valor1')
+    //   .set('parametro2', 'valor2');
+    return this.http.get(url, {headers: headers});
+  }
+
   getAllStatusOrder() {
     const url = `${this.apiUrl}/statusOrder`;
     const headers = new HttpHeaders({

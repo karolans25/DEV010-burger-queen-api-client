@@ -15,6 +15,8 @@ import { LoginComponent } from './components/login/login.component';
 import { UserListingComponent } from './components/admin/user-listing/user-listing.component';
 import { UpdatePopupComponent } from './components/admin/update-popup/update-popup.component';
 import { OrderListingComponent } from './components/home/order-listing/order-listing.component';
+import { ProductCardComponent } from './components/home/product-card/product-card.component';
+import { OrderTicketComponent } from './components/home/order-ticket/order-ticket.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { OrderListingComponent } from './components/home/order-listing/order-lis
     LoginComponent,
     UserListingComponent,
     UpdatePopupComponent,
-    OrderListingComponent
+    OrderListingComponent,
+    ProductCardComponent,
+    OrderTicketComponent
   ],
   imports: [
     BrowserModule,
