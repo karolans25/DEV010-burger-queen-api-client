@@ -1,8 +1,9 @@
 mat-stepper{
-    width: 800px;
-    padding: 20px;
-    height: fit-content;
+    width: 90vw;
+    min-height: 95vh;
     // height: 495px;
+    height: fit-content;
+    padding: 20px;
 }
 
   mat-tab-group {

@@ -23,7 +23,8 @@ export class OrderProductsComponent implements OnChanges {
         event.previousContainer.data,
         event.container.data,
         event.previousContainer.data.indexOf(event.item.data),
-        this.products.length
+        // this.products.length
+        0
       );
       console.log(event);  
     }
