@@ -6,7 +6,7 @@ import {FormBuilder, Validators } from '@angular/forms';
 import { Observable, map } from 'rxjs';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { DataService } from 'src/app/services/data/data.service';
-import { ProductInformation } from 'src/app/interfaces';
+import { CredentialOrder, ProductInformation, TakeProduct } from 'src/app/interfaces';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { MatCard } from '@angular/material/card';
 
@@ -28,7 +28,9 @@ export class HomeComponent implements OnInit{
   stepperOrientation: Observable<StepperOrientation>;
   
   categories!: Set<string>;
-  products!: ProductInformation[];
+  products: ProductInformation[] = [];
+  takenProducts: TakeProduct[] = [];
+  ticket!: CredentialOrder;
 
   todo = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
 
@@ -62,8 +64,37 @@ export class HomeComponent implements OnInit{
   }
 
   // drop(event: CdkDragDrop<MatCard[]>){
-  drop(event: CdkDragDrop<ProductInformation[]>){
-    console.log(event);
+  // drop(event: CdkDragDrop<ProductInformation[]>){
+  //   console.log(event);
+  // }
+
+  createTicket(orderProducts: any) {
+    this.updateQtyProducts(orderProducts);
+    this.ticket = {
+      client: this.firstFormGroup.value.firstCtrl || '',
+      products: this.takenProducts,
+      status: 'pending',
+      dataEntry: new Date().toString()
+    }
+    console.log(this.ticket);
+  }
+
+  updateQtyProducts(orderProducts: any) {
+    this.takenProducts = [];
+    const prods = new Set(orderProducts);
+    for (let item of prods) {
+      const quantity = orderProducts.filter((p:ProductInformation) => JSON.stringify(p) === JSON.stringify(item)).length;
+      this.takenProducts.push({
+        qty: quantity,
+        product: item as ProductInformation
+      });
+    }
+  }
+
+  createOrder(){
+    return this.data.createOrder(this.ticket).subscribe(res => {
+      console.log(res);
+    });
   }
 
 }

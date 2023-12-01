@@ -1,5 +1,5 @@
 import { CdkDrag, CdkDragDrop, copyArrayItem, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Component, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { ProductInformation, TakeProduct } from 'src/app/interfaces';
 
 @Component({
@@ -9,7 +9,8 @@ import { ProductInformation, TakeProduct } from 'src/app/interfaces';
 })
 export class OrderProductsComponent implements OnChanges {
 
-  productsOrder: TakeProduct[] = [];
+  @Output() updateOrderProductsEvent = new EventEmitter<ProductInformation[]>();
+  
   products: ProductInformation[] = [];
   deleted: ProductInformation[] = [];
 
@@ -26,7 +27,8 @@ export class OrderProductsComponent implements OnChanges {
         // this.products.length
         0
       );
-      console.log(event);  
+      console.log(this.products.length);
+      this.updateOrderProductsEvent.emit(this.products);
     }
   }
   
@@ -38,6 +40,8 @@ export class OrderProductsComponent implements OnChanges {
         event.previousIndex,
         event.currentIndex
       );  
+      console.log(this.products.length);
+      this.updateOrderProductsEvent.emit(this.products);
     }
   }
 

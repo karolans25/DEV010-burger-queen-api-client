@@ -54,6 +54,13 @@ export interface OrderInformation {
     dataEntry: string
 }
 
+export interface CredentialOrder {
+    client: string,
+    products: TakeProduct[],
+    status: string,
+    dataEntry: string
+}
+
 export interface CredentialRegister {
     email: string;
     password: string;

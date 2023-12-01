@@ -23,6 +23,7 @@
   </mat-step>
 
   <mat-step [stepControl]="secondFormGroup" label="Choose the products">
+  <!-- <mat-step label="Choose the products"> -->
     <form [formGroup]="secondFormGroup" cdkDropListGroup>
 
       <h4>Available Products:</h4>
@@ -51,7 +52,7 @@
 
       <mat-divider></mat-divider>
 
-      <app-order-products></app-order-products>
+      <app-order-products (updateOrderProductsEvent)="createTicket($event)"></app-order-products>
 
       <div>
         <button mat-button matStepperPrevious>Back</button>
@@ -65,19 +66,31 @@
       <section class="products orderTickets">
         <mat-card class="example-card">
           <mat-card-header>
-            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title>Burger Queen</mat-card-title>
+            <mat-card-subtitle>Ticket of the Order</mat-card-subtitle>
           </mat-card-header>
-          <img mat-card-image src="prod.image" alt="Photo of a product">
+          <mat-card-content>
+            <section class="tab-ticket">
+              <strong>Qty</strong>
+              <strong>Product</strong>
+              <strong>Price</strong>
+              <strong>Total</strong>
+
+              <!-- <p *ngFor="let prod of ticket">
+                <span>{{prod.qty}}</span>
+                <span>{{prod.product.name}}</span>
+                <span>{{prod.product.price}}</span>
+                <span>{{prod.qty * prod.product.price}}</span>
+              </p> -->
+            </section>      
+            
+          </mat-card-content>
           <mat-card-actions>
             <button mat-button>LIKE</button>
             <button mat-button>SHARE</button>
           </mat-card-actions>
         </mat-card>
       </section>
-    <mat-form-field>
-        <mat-label>Phone number</mat-label>
-        <input matInput formControlName="thirdCtrl" placeholder="Ex. 12345678" required>
-      </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Back</button>
         <button mat-button matStepperNext class="next">Next</button>
@@ -88,7 +101,7 @@
   <mat-step>
     <ng-template matStepLabel>Send</ng-template>
     <p>You are now done.</p>
-    <button mat-button >Send Order to Kitchen</button>
+    <button mat-button (click)="createOrder()">Send Order to Kitchen</button>
     <div>
       <button mat-button matStepperPrevious>Back</button>
     </div>

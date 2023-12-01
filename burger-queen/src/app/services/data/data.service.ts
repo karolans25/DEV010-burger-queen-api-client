@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CredentialOrder } from 'src/app/interfaces';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -155,4 +156,14 @@ export class DataService {
     return sessionStorage.getItem('role')!= null ? sessionStorage.getItem('role')?.toString() : '';
   }
 
+  createOrder(inputdata: CredentialOrder){
+    const url = `${this.apiUrl}/orders`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('accessToken'),
+      // 'Access-Control-Allow-Origin': this.apiUrl
+    });
+    console.log(inputdata);
+    return this.http.post(url, inputdata, {headers: headers});
+  }
 }
