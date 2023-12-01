@@ -1,19 +1,21 @@
 // import { Component } from '@angular/core';
 // import { FormBuilder, Validators } from '@angular/forms';
 import { StepperOrientation } from '@angular/cdk/stepper';
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, Validators } from '@angular/forms';
 import { Observable, map } from 'rxjs';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { DataService } from 'src/app/services/data/data.service';
 import { ProductInformation } from 'src/app/interfaces';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { MatCard } from '@angular/material/card';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit{
   firstFormGroup = this._formBuilder.group({
     firstCtrl: ['', Validators.required],
   });
@@ -41,18 +43,27 @@ export class HomeComponent {
     this.stepperOrientation = breakpointObserver
     .observe('(min-width: 800px)')
     .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
+  }
+
+  ngOnInit(){
 
     this.data.getAllProducts().subscribe(res => {
-      console.log(res);
+      // console.log(res);
       this.products = res as ProductInformation[];
       const cats = this.products.map(item => {
-        console.log(item.image);
+        // console.log(item.image);
         item.image = `url('${item.image}')`;
-        console.log(item.image);
+        // console.log(item.image);
         return item.type;
       });
       this.categories = new Set(cats);
-      console.log(this.categories);
+      // console.log(this.categories);
     });
   }
+
+  // drop(event: CdkDragDrop<MatCard[]>){
+  drop(event: CdkDragDrop<ProductInformation[]>){
+    console.log(event);
+  }
+
 }

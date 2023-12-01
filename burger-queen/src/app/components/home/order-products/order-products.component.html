@@ -1,0 +1,23 @@
+<!-- <h3>Product of the New Order:</h3> -->
+
+<h4>Products of the new Order: </h4>
+
+<section cdkDropList [cdkDropListData]="products" (cdkDropListDropped)="drop($event)" class="orderProducts" id="orderProducts">
+<p *ngIf="products.length === 0">Drag the products for the new order here ...</p>
+<div *ngFor="let prod of products">
+    <!-- <div > -->
+      <mat-card cdkDrag class="example-card">
+        <!-- <img *cdkDragPreview [src]="" [alt]="prod.name"> -->
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image" [ngStyle]="{'background-image': prod.image}"></div>
+          <mat-card-title>{{prod.name}}</mat-card-title>
+          <mat-card-subtitle>${{prod.price}}</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+    <!-- </div> -->
+  </div>
+</section>
+
+<section cdkDropList [cdkDropListData]="deleted" (cdkDropListDropped)="delete($event)" class="delete" id="deleteProducts">
+  <img src="../../../../assets/delete.png" alt="Delete icon">
+</section>

@@ -18,6 +18,7 @@ import { OrderListingComponent } from './components/home/order-listing/order-lis
 import { ProductCardComponent } from './components/home/product-card/product-card.component';
 import { OrderTicketComponent } from './components/home/order-ticket/order-ticket.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { OrderProductsComponent } from './components/home/order-products/order-products.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     UpdatePopupComponent,
     OrderListingComponent,
     ProductCardComponent,
-    OrderTicketComponent
+    OrderTicketComponent,
+    OrderProductsComponent
   ],
   imports: [
     BrowserModule,
